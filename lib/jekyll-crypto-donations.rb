@@ -8,57 +8,127 @@ module Jekyll
   module CryptoDonations
     # describe {% crypto_donations %} tag content
     class DonationsTag < Liquid::Tag
+      attr_reader :btc_address, :eth_address, :usdt_address
+
       def initialize(tag_name, text, tokens)
         super
         @text = text
       end
 
-      def render(context)
-        site_config = context.registers.fetch(:site).config
-        btc_address = site_config.dig("crypto_donations", "btc_address")
-        eth_address = site_config.dig("crypto_donations", "eth_address")
-        usdt_address = site_config.dig("crypto_donations", "usdt_address")
+      def btc_html
+        return "" unless btc_address
 
+        <<~HTML
+          <div>
+            <h3>Bitcoin (BTC)</h3>
+            <p>Address: #{btc_address}</p>
+            <p id="btc-donations">Loading...</p>
+          </div>
+        HTML
+      end
+
+      def eth_html
+        return "" unless eth_address
+
+        <<~HTML
+          <div>
+            <h3>Ethereum (ETH)</h3>
+            <p>Address: #{eth_address}</p>
+            <p id="eth-donations">Loading...</p>
+          </div>
+        HTML
+      end
+
+      def usdt_html
+        return "" unless usdt_address
+
+        <<~HTML
+          <div>
+            <h3>USDT (TRC-20)</h3>
+            <p>Address: #{usdt_address}</p>
+            <p id="usdt-donations">Loading...</p>
+          </div>
+        HTML
+      end
+
+      def btc_js
+        return "" unless btc_address
+
+        <<~JS
+          const btcDonations = await getDonations('btc', '#{btc_address}');
+          document.getElementById('btc-donations').innerText = `Total received: ${btcDonations} BTC`;
+        JS
+      end
+
+      def eth_js
+        return "" unless eth_address
+
+        <<~JS
+          const ethDonations = await getDonations('eth', '#{eth_address}');
+          document.getElementById('eth-donations').innerText = `Total received: ${ethDonations} ETH`;
+        JS
+      end
+
+      def usdt_js
+        return "" unless usdt_address
+
+        <<~JS
+          const usdtDonations = await getDonations('usdt', '#{usdt_address}');
+          document.getElementById('usdt-donations').innerText = `Total received: ${usdtDonations} USDT`;
+        JS
+      end
+
+      def site_config(context)
+        site_config = context.registers.fetch(:site).config
+        @btc_address = site_config.dig("crypto_donations", "btc_address")
+        @eth_address = site_config.dig("crypto_donations", "eth_address")
+        @usdt_address = site_config.dig("crypto_donations", "usdt_address")
+      end
+
+      def opening_html
         <<~HTML
           <div id="crypto-donations">
             <h2>Support Us with Crypto Donations</h2>
             <p>#{@text}</p>
-            <div>
-              <h3>Bitcoin (BTC)</h3>
-              <p id="btc-address">#{btc_address}</p>
-              <p id="btc-donations">Loading...</p>
-            </div>
-            <div>
-              <h3>Ethereum (ETH)</h3>
-              <p id="eth-address">#{eth_address}</p>
-              <p id="eth-donations">Loading...</p>
-            </div>
-            <div>
-              <h3>USDT (TRC-20)</h3>
-              <p id="usdt-address">Address: #{usdt_address}</p>
-              <p id="usdt-donations">Loading...</p>
-            </div>
+        HTML
+      end
+
+      def closing_html
+        <<~HTML
           </div>
           <script type="module">
             import { getDonations } from '/assets/js/crypto-donations/crypto-donations.js';
 
             document.addEventListener('DOMContentLoaded', async () => {
-              const btcAddress = '#{btc_address}';
-              const ethAddress = '#{eth_address}';
-              const usdtAddress = '#{usdt_address}'
+        HTML
+      end
 
-              const usdtDonations = await getDonations('usdt', usdtAddress);
-              document.getElementById('usdt-donations').innerText = `Total received: ${usdtDonations} USDT`;
-
-              const btcDonations = await getDonations('btc', btcAddress);
-              document.getElementById('btc-donations').innerText = `Total received: ${btcDonations} BTC`;
-
-              const ethDonations = await getDonations('eth', ethAddress);
-              document.getElementById('eth-donations').innerText = `Total received: ${ethDonations} ETH`;
-
+      def closing_js
+        <<~JS
             });
           </script>
-        HTML
+        JS
+      end
+
+      def render(context)
+        site_config(context)
+        return if btc_address.nil? && eth_address.nil? && usdt_address.nil?
+
+        content = opening_html
+
+        content += btc_html
+        content += eth_html
+        content += usdt_html
+
+        content += closing_html
+
+        content += btc_js
+        content += eth_js
+        content += usdt_js
+
+        content += closing_js
+
+        content
       end
     end
   end
