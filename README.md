@@ -1,5 +1,7 @@
 # Jekyll::CryptoDonations 🤑
 
+[![Gem Version](https://badge.fury.io/rb/jekyll-crypto-donations.svg)](https://badge.fury.io/rb/jekyll-crypto-donations)
+
 ## About
 
 The **Jekyll Crypto Donations** plugin is a simple and efficient solution for integrating cryptocurrency donations into Jekyll-generated websites. In the initial iteration, the plugin supports Bitcoin (BTC), Ethereum (ETH), and USDT (TRC-20). It allows website owners to display current donation amounts and provide easy access for visitors to contribute using these cryptocurrencies. The plugin is designed to be easy to install and configure, making it a seamless addition to any Jekyll site. By leveraging real-time API calls, it ensures that the displayed donation amounts are always up-to-date, providing transparency and encouraging more contributions.
