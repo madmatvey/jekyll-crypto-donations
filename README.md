@@ -26,6 +26,15 @@ crypto_donations:
   usdt_address: "YOUR_USDT_TRC20_ADDRES"
 ```
 
+Use `{% crypto_donations %}` or `{% crypto_donations Any text you can share with donations block %}` at the jekyll page source.
+
+## Demo
+
+To see the Crypto Donations plugin in action, check out the demo on my website: [madmatvey.github.io](https://madmatvey.github.io/about/#donate-me).
+
+You can see how the donation addresses and total received amounts are displayed for Bitcoin (BTC), Ethereum (ETH), and USDT (TRC-20). The demo showcases the real-time integration and functionality of the plugin.
+
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
