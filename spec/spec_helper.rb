@@ -13,3 +13,17 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
+require "jekyll"
+
+Jekyll.logger = Logger.new(StringIO.new)
+
+def make_site
+  Jekyll::Site.new(Jekyll.configuration)
+end
+
+def make_context(value = nil)
+  site = make_site
+  site.config["crypto_donations"] = value
+  Liquid::Context.new({}, {}, site: site)
+end
