@@ -1,0 +1,116 @@
+#jekyll-crypto-donations {
+  font-family: Arial, sans-serif;
+  margin: 20px 0;
+  color: var(--text-primary);
+  padding: 30px 20px 20px;
+  text-align: center
+}
+
+.jekyll-crypto-donations__title {
+  font-family: CharterC,sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 38px
+}
+
+.jekyll-crypto-donations__item {
+  border: 1px solid var(--text-color);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  margin-top: 24px
+}
+
+.jekyll-crypto-donations__crypto-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.jekyll-crypto-donations__crypto-code span {
+  font-family: monospace;
+  background:var(--background-color);
+  padding: 5px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.jekyll-crypto-donations__crypto-buttons {
+  margin-top: -10px;
+}
+
+.jekyll-crypto-donations__button:hover {
+  color: var(--text-primary)!important
+}
+
+@media (min-width: 885px) {
+  .jekyll-crypto-donations__button {
+      font-size:14px
+  }
+}
+
+
+.jekyll-crypto-donations__crypto-btn-copy,
+.jekyll-crypto-donations__crypto-btn-qr {
+  border: none;
+  padding: 5px 10px;
+  margin-right: 5px;
+  fill: var(--text-color);
+  background: none;
+  height: 20px;
+  opacity: .5;
+  transition: opacity .2s ease;
+  width: 20px
+}
+
+.jekyll-crypto-donations__crypto-btn-copy:hover,
+.jekyll-crypto-donations__crypto-btn-qr:hover {
+  opacity: 1
+}
+
+.jekyll-crypto-donations__button>* {
+  position: relative
+}
+
+.jekyll-crypto-donations__button:active:before {
+  background-color: var(--background-color)
+}
+
+.jekyll-crypto-donations__button:hover:before {
+  opacity: 1
+}
+
+.jekyll-crypto-donations__button:before {
+  background-color: var(--background-color);
+  border-radius: inherit;
+  content: "";
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  transition: opacity .3s ease;
+  width: 100%
+}
+
+.jekyll-crypto-donations__crypto-image-qr {
+  display: none;
+}
+
+.jekyll-crypto-donations__crypto--show-qr .jekyll-crypto-donations__crypto-image-qr {
+  display: inline-block;
+}
+
+.jekyll-crypto-donations__crypto-code--is-copied span {
+  display: none;
+  text-align: center
+}
+
+.jekyll-crypto-donations__crypto-code--is-copied:before {
+  color: var(--text-color);
+  content: "Copied!";
+  font-family: monospace;
+  background: var(--background-color);
+  padding: 5px;
+  border-radius: 3px;
+  display: inline-block;
+}

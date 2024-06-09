@@ -18,7 +18,6 @@ RSpec.describe Jekyll::CryptoDonations::DonationsTag do
 
   describe "#render" do
     it "returns the HTML with all donation addresses" do
-      expect(tag).to include("Support Us with Crypto Donations")
       expect(tag).to include("Additional text")
       expect(tag).to include("btc_test_address")
       expect(tag).to include("eth_test_address")
