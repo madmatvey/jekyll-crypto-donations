@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.4] - 2024-06-09
+
+- fix `word-break` at address css container for mobile screens
+
 ## [0.1.3] - 2024-06-09
 
 - drop unused paragraph `Support us with crypto donations`. Feel free to use your own text.
