@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    jekyll-crypto-donations (0.1.4)
+    jekyll-crypto-donations (0.1.5)
       jekyll (~> 4.3)
 
 GEM
@@ -17,10 +17,11 @@ GEM
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0)
     eventmachine (1.2.7)
-    ffi (1.17.0)
+    ffi (1.17.0-arm64-darwin)
+    ffi (1.17.0-x86_64-darwin)
+    ffi (1.17.0-x86_64-linux-gnu)
     forwardable-extended (2.6.0)
-    google-protobuf (3.23.4-x86_64-darwin)
-    google-protobuf (3.23.4-x86_64-linux)
+    google-protobuf (3.23.4)
     http_parser.rb (0.8.0)
     i18n (1.14.5)
       concurrent-ruby (~> 1.0)
@@ -98,10 +99,11 @@ GEM
       parser (>= 3.2.1.0)
     ruby-progressbar (1.13.0)
     safe_yaml (1.0.5)
-    sass-embedded (1.58.3)
+    sass-embedded (1.58.3-arm64-darwin)
       google-protobuf (~> 3.21)
-      rake (>= 10.0.0)
     sass-embedded (1.58.3-x86_64-darwin)
+      google-protobuf (~> 3.21)
+    sass-embedded (1.58.3-x86_64-linux-gnu)
       google-protobuf (~> 3.21)
     strscan (3.1.0)
     terminal-table (3.0.2)
@@ -110,6 +112,7 @@ GEM
     webrick (1.8.1)
 
 PLATFORMS
+  arm64-darwin-24
   x86_64-darwin-21
   x86_64-linux
 
