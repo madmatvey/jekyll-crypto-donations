@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "jekyll"
+require "securerandom"
 require "jekyll-crypto-donations/version"
 # require "jekyll_crypto_donations/generator"
 
@@ -23,6 +24,7 @@ module Jekyll
 
       def currency_html(currency_ticker, address)
         currency = CRYPTO_CURRENCIES[currency_ticker]
+        total_id = "#{@instance_id}_#{currency_ticker}-total"
         <<~HTML
           <div class="jekyll-crypto-donations__item">
             <span class="jekyll-crypto-donations__crypto-name">#{currency[:name]} (#{currency[:ticker]})</span>
@@ -32,16 +34,16 @@ module Jekyll
                   <span>#{address}</span>
                 </div>
                 <div class="jekyll-crypto-donations__crypto-buttons">
-                  <button class="jekyll-crypto-donations__crypto-btn-copy">
-                    <svg id="svg" fill="#ededed" stroke="#ededed" width="20" height="20" version="1.1" viewBox="144 144 512 512" xmlns="http://www.w3.org/2000/svg" stroke-width="20">
-                      <g id="IconSvg_bgCarrier" stroke-width="0"></g>
-                      <g id="IconSvg_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0">
+                  <button class="jekyll-crypto-donations__crypto-btn-copy" type="button" aria-label="Copy #{currency[:ticker]} address">
+                    <svg fill="#ededed" stroke="#ededed" width="20" height="20" version="1.1" viewBox="144 144 512 512" xmlns="http://www.w3.org/2000/svg" stroke-width="20" aria-hidden="true">
+                      <g stroke-width="0"></g>
+                      <g stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0">
                         <g xmlns="http://www.w3.org/2000/svg">
                           <path d="m458.74 466.8h123.13 17.23c5.4414 0 10.078-4.6367 10.078-10.078v-86.957-139.15-31.84c0-5.4414-4.6367-10.078-10.078-10.078h-87.359-138.95-31.641c-5.4414 0-10.078 4.6367-10.078 10.078v126.66 17.938c0 13 20.152 13 20.152 0v-126.66-17.938c-3.3242 3.3242-6.75 6.75-10.078 10.078h87.359 138.95 31.641c-3.3242-3.3242-6.75-6.75-10.078-10.078v86.957 139.15 31.84l10.078-10.078h-123.13-17.23c-12.992 0.003906-12.992 20.156 0.003907 20.156z"></path>
                           <path d="m458.74 591.14h-86.957-139.15-31.84l10.078 10.078v-86.957-139.15-31.84c-3.3242 3.3242-6.75 6.75-10.078 10.078h86.957 139.15 31.84c-3.3242-3.3242-6.75-6.75-10.078-10.078v86.957 139.15 31.84c0 13 20.152 13 20.152 0v-86.957-139.15-31.84c0-5.4414-4.6367-10.078-10.078-10.078h-86.957-139.15-31.84c-5.4414 0-10.078 4.6367-10.078 10.078v86.957 139.15 31.84c0 5.4414 4.6367 10.078 10.078 10.078h86.957 139.15 31.84c13.004-0.003906 13.004-20.156 0.003907-20.156z"></path>
                         </g>
                       </g>
-                      <g id="IconSvg_iconCarrier">
+                      <g>
                         <g xmlns="http://www.w3.org/2000/svg">
                           <path d="m458.74 466.8h123.13 17.23c5.4414 0 10.078-4.6367 10.078-10.078v-86.957-139.15-31.84c0-5.4414-4.6367-10.078-10.078-10.078h-87.359-138.95-31.641c-5.4414 0-10.078 4.6367-10.078 10.078v126.66 17.938c0 13 20.152 13 20.152 0v-126.66-17.938c-3.3242 3.3242-6.75 6.75-10.078 10.078h87.359 138.95 31.641c-3.3242-3.3242-6.75-6.75-10.078-10.078v86.957 139.15 31.84l10.078-10.078h-123.13-17.23c-12.992 0.003906-12.992 20.156 0.003907 20.156z"></path>
                           <path d="m458.74 591.14h-86.957-139.15-31.84l10.078 10.078v-86.957-139.15-31.84c-3.3242 3.3242-6.75 6.75-10.078 10.078h86.957 139.15 31.84c-3.3242-3.3242-6.75-6.75-10.078-10.078v86.957 139.15 31.84c0 13 20.152 13 20.152 0v-86.957-139.15-31.84c0-5.4414-4.6367-10.078-10.078-10.078h-86.957-139.15-31.84c-5.4414 0-10.078 4.6367-10.078 10.078v86.957 139.15 31.84c0 5.4414 4.6367 10.078 10.078 10.078h86.957 139.15 31.84c13.004-0.003906 13.004-20.156 0.003907-20.156z"></path>
@@ -49,10 +51,10 @@ module Jekyll
                       </g>
                     </svg>
                   </button>
-                  <button class="jekyll-crypto-donations__crypto-btn-qr">
-                    <svg id="svg" fill="#ededed" stroke="#ededed" width="20" height="20" version="1.1" viewBox="144 144 512 512" xmlns="http://www.w3.org/2000/svg" stroke-width="0">
-                      <g id="IconSvg_bgCarrier" stroke-width="0"></g>
-                      <g id="IconSvg_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0">
+                  <button class="jekyll-crypto-donations__crypto-btn-qr" type="button" aria-label="Show #{currency[:ticker]} QR code">
+                    <svg fill="#ededed" stroke="#ededed" width="20" height="20" version="1.1" viewBox="144 144 512 512" xmlns="http://www.w3.org/2000/svg" stroke-width="0" aria-hidden="true">
+                      <g stroke-width="0"></g>
+                      <g stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0">
                         <g xmlns="http://www.w3.org/2000/svg">
                           <path d="m379.01 588.93h-167.94v-167.93h167.94zm-125.95-41.984h83.969v-83.965h-83.969z"></path>
                           <path d="m588.93 379.01h-167.93v-167.94h167.94zm-125.95-41.984h83.969l-0.003906-83.969h-83.965z"></path>
@@ -63,7 +65,7 @@ module Jekyll
                           <path d="m504.96 420.99h83.969v41.984h-83.969z"></path>
                         </g>
                       </g>
-                      <g id="IconSvg_iconCarrier">
+                      <g>
                         <g xmlns="http://www.w3.org/2000/svg">
                           <path d="m379.01 588.93h-167.94v-167.93h167.94zm-125.95-41.984h83.969v-83.965h-83.969z"></path>
                           <path d="m588.93 379.01h-167.93v-167.94h167.94zm-125.95-41.984h83.969l-0.003906-83.969h-83.965z"></path>
@@ -77,12 +79,12 @@ module Jekyll
                     </svg>
                   </button>
                   <div class="jekyll-crypto-donations__crypto-total-received">
-                    <span id="jekyll-crypto-donations_#{currency_ticker}-total">Loading...</span>
+                    <span id="#{total_id}">Loading...</span>
                   </div>
                 </div>
               </div>
               <div class="jekyll-crypto-donations__crypto-image-qr">
-                <img alt="" width="150px" heght="150px" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=#{address}">
+                <img alt="#{currency[:name]} donation QR code" width="150" height="150" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=#{address}">
               </div>
             </div>
           </div>
@@ -110,27 +112,30 @@ module Jekyll
       def btc_js
         return "" unless btc_address
 
+        total_id = "#{@instance_id}_btc-total"
         <<~JS
           const btcDonations = await getDonations('btc', '#{btc_address}');
-          document.getElementById('jekyll-crypto-donations_btc-total').innerText = `Total received: ${btcDonations} BTC`;
+          document.getElementById('#{total_id}').innerText = `Total received: ${btcDonations} BTC`;
         JS
       end
 
       def eth_js
         return "" unless eth_address
 
+        total_id = "#{@instance_id}_eth-total"
         <<~JS
           const ethDonations = await getDonations('eth', '#{eth_address}');
-          document.getElementById('jekyll-crypto-donations_eth-total').innerText = `Total received: ${ethDonations} ETH`;
+          document.getElementById('#{total_id}').innerText = `Total received: ${ethDonations} ETH`;
         JS
       end
 
       def usdt_js
         return "" unless usdt_address
 
+        total_id = "#{@instance_id}_usdt-total"
         <<~JS
           const usdtDonations = await getDonations('usdt', '#{usdt_address}');
-          document.getElementById('jekyll-crypto-donations_usdt-total').innerText = `Total received: ${usdtDonations} USDT`;
+          document.getElementById('#{total_id}').innerText = `Total received: ${usdtDonations} USDT`;
         JS
       end
 
@@ -143,7 +148,7 @@ module Jekyll
 
       def opening_html
         <<~HTML
-          <div id="jekyll-crypto-donations">
+          <div id="#{@instance_id}" class="jekyll-crypto-donations">
             <div class="jekyll-crypto-donations__description">
               <span>#{@text}</span>
             </div>
@@ -184,6 +189,7 @@ module Jekyll
       end
 
       def render(context)
+        @instance_id = "jekyll-crypto-donations-#{SecureRandom.hex(4)}"
         site_config(context)
         return if btc_address.nil? && eth_address.nil? && usdt_address.nil?
 
