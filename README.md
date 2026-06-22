@@ -30,7 +30,7 @@ Use `{% crypto_donations %}` or `{% crypto_donations Any text you can share with
 
 ## Demo
 
-To see the Crypto Donations plugin in action, check out the demo on my website: [madmatvey.github.io](https://madmatvey.github.io/about/#donate-me).
+To see the Crypto Donations plugin in action, check out the demo on my website: [https://eugenetheengineer.com/](https://eugenetheengineer.com/about/#donate-me).
 
 You can see how the donation addresses and total received amounts are displayed for Bitcoin (BTC), Ethereum (ETH), and USDT (TRC-20). The demo showcases the real-time integration and functionality of the plugin.
 
